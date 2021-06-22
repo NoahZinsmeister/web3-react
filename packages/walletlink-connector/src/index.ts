@@ -34,13 +34,29 @@ export class WalletLinkConnector extends AbstractConnector {
 
   public async activate(): Promise<ConnectorUpdate> {
     if (!this.walletLink) {
-      const WalletLink = await import('walletlink').then(m => m?.default ?? m)
+      const WalletLink = await import('walletlink').then((m) => m?.default ?? m)
       this.walletLink = new WalletLink({
         appName: this.appName,
         darkMode: this.darkMode,
-        ...(this.appLogoUrl ? { appLogoUrl: this.appLogoUrl } : {})
+        ...(this.appLogoUrl ? { appLogoUrl: this.appLogoUrl } : {}),
       })
-      this.provider = this.walletLink.makeWeb3Provider(this.url, CHAIN_ID)
+      const provider = this.walletLink.makeWeb3Provider(this.url, CHAIN_ID)
+
+      provider.request = provider.request.bind(provider)
+      provider.setAppInfo = provider.setAppInfo.bind(provider)
+      provider.enable = provider.enable.bind(provider)
+      provider.close = provider.close.bind(provider)
+      provider.send = provider.send.bind(provider)
+      provider.sendAsync = provider.sendAsync.bind(provider)
+      provider.request = provider.request.bind(provider)
+      provider.scanQRCode = provider.scanQRCode.bind(provider)
+      provider.arbitraryRequest = provider.arbitraryRequest.bind(provider)
+      provider.childRequestEthereumAccounts = provider.childRequestEthereumAccounts.bind(provider)
+
+      provider.on('chainChanged', this.handleChainChanged)
+      provider.on('accountsChanged', this.handleAccountsChanged)
+
+      this.provider = provider
     }
 
     const account = await this.provider.send('eth_requestAccounts').then((accounts: string[]): string => accounts[0])
@@ -48,7 +64,7 @@ export class WalletLinkConnector extends AbstractConnector {
     this.provider.on('chainChanged', this.handleChainChanged)
     this.provider.on('accountsChanged', this.handleAccountsChanged)
 
-    return { provider: this.provider, chainId: CHAIN_ID, account: account }
+    return { provider: this.provider, chainId: CHAIN_ID, account }
   }
 
   public async getProvider(): Promise<any> {
