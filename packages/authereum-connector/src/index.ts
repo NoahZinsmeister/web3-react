@@ -15,6 +15,8 @@ interface AuthereumConnectorArguments {
 }
 
 export class AuthereumConnector extends AbstractConnector {
+  public readonly id: string
+
   private readonly chainId: number
   private readonly config: any
 
@@ -23,6 +25,7 @@ export class AuthereumConnector extends AbstractConnector {
   constructor({ chainId, config = {} }: AuthereumConnectorArguments) {
     super({ supportedChainIds: [chainId] })
 
+    this.id = 'authereum'
     this.chainId = chainId
     this.config = config
   }

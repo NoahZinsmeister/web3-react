@@ -12,6 +12,8 @@ interface WalletLinkConnectorArguments {
 }
 
 export class WalletLinkConnector extends AbstractConnector {
+  public readonly id: string
+
   private readonly url: string
   private readonly appName: string
   private readonly appLogoUrl?: string
@@ -22,6 +24,8 @@ export class WalletLinkConnector extends AbstractConnector {
 
   constructor({ url, appName, appLogoUrl, darkMode, supportedChainIds }: WalletLinkConnectorArguments) {
     super({ supportedChainIds: supportedChainIds })
+
+    this.id = 'walletlink'
 
     this.url = url
     this.appName = appName

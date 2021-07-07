@@ -25,12 +25,16 @@ function getSupportedChains({ supportedChainIds, rpc }: WalletConnectConnectorAr
 }
 
 export class WalletConnectConnector extends AbstractConnector {
+  public readonly id: string
+
   private readonly config: WalletConnectConnectorArguments
 
   public walletConnectProvider?: any
 
   constructor(config: WalletConnectConnectorArguments) {
     super({ supportedChainIds: getSupportedChains(config) })
+
+    this.id = 'walletconnect'
 
     this.config = config
 

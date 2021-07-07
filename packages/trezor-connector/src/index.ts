@@ -16,6 +16,8 @@ interface TrezorConnectorArguments {
 }
 
 export class TrezorConnector extends AbstractConnector {
+  public readonly id: string
+
   private readonly chainId: number
   private readonly url: string
   private readonly pollingInterval?: number
@@ -36,6 +38,8 @@ export class TrezorConnector extends AbstractConnector {
     manifestAppUrl
   }: TrezorConnectorArguments) {
     super({ supportedChainIds: [chainId] })
+
+    this.id = 'trezor'
 
     this.chainId = chainId
     this.url = url
