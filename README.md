@@ -56,10 +56,10 @@ _Open a PR to add your project to the list!_
 - [Outpost](https://github.com/OutpostProtocol/outpost-app)
 - [Async Art](https://async.art)
 - [Union](https://union.finance)
+- [MultiCurrencyWallet](https://github.com/swaponline/MultiCurrencyWallet)
 - [Aave](https://app.aave.com)
 - [Eth2 Launchpad](https://launchpad.ethereum.org/)
 - [EthBlockArt](https://ethblock.art/)
-
 
 ## Related Efforts
 
