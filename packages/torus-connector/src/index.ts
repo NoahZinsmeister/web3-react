@@ -46,13 +46,14 @@ export class TorusConnector extends AbstractConnector {
   }
 
   public async getAccount(): Promise<null | string> {
-    return this.torus.ethereum.send('eth_accounts').then((accounts: string[]): string => accounts[0])
+    return this.torus.ethereum.request({ method: 'eth_accounts' }).then((accounts: string[]): string => accounts[0])
   }
 
   public async deactivate() {}
 
   public async close() {
     await this.torus.cleanUp()
+    this.torus = undefined
     this.emitDeactivate()
   }
 }
